@@ -1,0 +1,42 @@
+# Maintainer: LuckyRUS38
+#
+# Native Arch package made from the .deb of the release (no compilation).
+# Build and install:   cd arch && makepkg -si
+# Update:              change pkgver to the new release and run makepkg -si again.
+#
+# A pacman install is updated with pacman: the in-app updater only works for the AppImage and says so.
+#
+# CHECK BEFORE FIRST USE: the exact name of the .deb in the release. GitHub replaces spaces in asset names
+# with dots, so "Huly Desktop_0.1.10_amd64.deb" becomes "Huly.Desktop_0.1.10_amd64.deb". If the release page
+# shows another name, fix _asset below.
+
+pkgname=huly-desktop-bin
+pkgver=0.1.11
+pkgrel=1
+pkgdesc='Desktop client for a self-hosted Huly (tray, notifications, Drive sync)'
+arch=('x86_64')
+url='https://github.com/LuckyRUS38/tracker-pub-app'
+license=('custom')
+depends=('webkit2gtk-4.1' 'gtk3' 'libayatana-appindicator' 'openssl' 'xdotool')
+optdepends=(
+  'mako: notification daemon for Sway / Hyprland'
+  'dunst: notification daemon for i3 / bspwm / others'
+  'swaync: notification center for Sway / Hyprland'
+  'xdg-desktop-portal: file dialogs under Wayland'
+)
+provides=('huly-desktop')
+conflicts=('huly-desktop')
+options=('!strip')
+
+_asset="Huly.Desktop_${pkgver}_amd64.deb"
+source=("${pkgname}-${pkgver}.deb::${url}/releases/download/v${pkgver}/${_asset}")
+sha256sums=('SKIP')   # run `updpkgsums` after the first successful download to pin it
+
+package() {
+  cd "$srcdir"
+  # a .deb is an ar archive: control.tar.* and data.tar.*; bsdtar reads both
+  bsdtar -xf "${pkgname}-${pkgver}.deb"
+  bsdtar -xf data.tar.* -C "$pkgdir"
+  # permissions the deb keeps for the files it installs
+  find "$pkgdir" -type d -exec chmod 755 {} +
+}
