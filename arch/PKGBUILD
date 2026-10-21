@@ -7,11 +7,11 @@
 # A pacman install is updated with pacman: the in-app updater only works for the AppImage and says so.
 #
 # CHECK BEFORE FIRST USE: the exact name of the .deb in the release. GitHub replaces spaces in asset names
-# with dots, so "Huly Desktop_0.1.10_amd64.deb" becomes "Huly.Desktop_0.1.10_amd64.deb". If the release page
+# with dots, so "Huly Desktop_0.1.15_amd64.deb" becomes "Huly.Desktop_0.1.15_amd64.deb". If the release page
 # shows another name, fix _asset below.
 
 pkgname=huly-desktop-bin
-pkgver=0.1.11
+pkgver=0.1.15
 pkgrel=1
 pkgdesc='Desktop client for a self-hosted Huly (tray, notifications, Drive sync)'
 arch=('x86_64')
